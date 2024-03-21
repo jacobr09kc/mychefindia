@@ -2,89 +2,134 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Food Website</title>
+    <title>Interactive A La Carte Menu Book</title>
     <style>
         body {
+            font-family: 'Arial', sans-serif;
+            background-color: skyblue; /* Updated background color */
             margin: 0;
-            font-family: Arial, sans-serif;
-        }
-        .navbar {
-            background-color: #333;
-            overflow: hidden;
-            position: fixed;
-            width: 100%;
-            top: 0;
-        }
-        .navbar a {
-            float: left;
-            display: block;
-            color: white;
-            text-align: center;
-            padding: 14px 20px;
-            text-decoration: none;
-        }
-        .navbar a:hover {
-            background-color: #ddd;
-            color: black;
-        }
-        .hero-section {
-            background-color: #f1f1f1;
-            padding: 50px;
-            text-align: center;
-        }
-        .food-items {
+            padding: 0;
             display: flex;
-            flex-wrap: wrap;
-            padding: 20px;
-            justify-content: space-around;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
         }
-        .food-item {
-            margin: 10px;
-            padding: 20px;
-            width: 30%;
-            background-color: #ddd;
-            text-align: center;
+		.container {
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			height: 100vh;
         }
-        .footer {
-            background-color: #333;
-            color: white;
-            text-align: center;
-            padding: 10px;
-            position: fixed;
-            bottom: 0;
-            width: 100%;
+        .book {
+            width: 620px;
+            height: 400px;
+            position: relative;
+            perspective: 2000px;
+            background: #040720; /* Dark background for the book container */
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+            overflow: hidden;
         }
+        .page {
+            width: 300px;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            background: #FFFACD; /* Light golden color for the pages */
+            border: 1px solid #ccc;
+            box-shadow: 2px 2px 10px rgba(0,0,0,0.1);
+            transition: transform 1s ease, z-index 0.5s;
+            transform-origin: left;
+            backface-visibility: hidden;
+        }
+        .page:nth-child(odd) {
+            left: 10px;
+            transform-origin: right;
+        }
+        .page:nth-child(even) {
+            right: 10px;
+            transform-origin: left;
+        }
+        .page.flipped {
+            transform: rotateY(-180deg);
+        }
+
+        .chef-icon {
+            width: 100px;
+            position: absolute;
+            top: 20px;
+            left: calc(50% - 50px);
+        }
+
     </style>
 </head>
 <body>
-
-<div class="navbar">
-    <a href="#home">Home</a>
-    <a href="#menu">Menu</a>
-    <a href="#about">About</a>
+<div class="wrapper">
+<div class="book" id="book">
+    <img src="data:image/png;base64,{{BASE64_STRING}}" alt="Chef Robot" class="chef-icon">
 </div>
-
-<div class="hero-section">
-    <h1>Welcome to Our Food Website</h1>
-    <p>Explore the world of flavors with us.</p>
-</div>
-
-<div class="food-items">
-    <div class="food-item">
-        <h2>Food Item 1</h2>
-        <p>Description of food item 1.</p>
+    <div class="footer">
+        <a href="MyChef_Menu.pdf" download="MyChef_Menu.pdf">Download PDF</a>
     </div>
-    <div class="food-item">
-        <h2>Food Item 2</h2>
-        <p>Description of food item 2.</p>
-    </div>
-    <!-- Add more food items here -->
 </div>
 
-<div class="footer">
-    <p>Contact Us: email@example.com</p>
-</div>
+
+<script>
+    const bookEl = document.getElementById('book');
+    let currentPageIndex = 0;
+
+    const menuItems = [
+        "Appetizer: Caesar Salad", "Soup: Tomato Basil",
+        "Main Course: Grilled Salmon", "Dessert: Cheesecake",
+        "Drink: Red Wine", "Special: Lobster Bisque",
+        "Salad: Waldorf Salad", "Main Course: Filet Mignon",
+        "Dessert: Chocolate Lava Cake", "Drink: Champagne"
+    ];
+
+    menuItems.forEach((item, index) => {
+        const page = document.createElement('div');
+        page.className = 'page';
+        if (index % 2 === 0) {
+            page.classList.add('left-page');
+        } else {
+            page.classList.add('right-page');
+        }
+        // First two pages should not be flipped initially
+        if (index > 1) page.classList.add('flipped');
+
+        const content = document.createElement('div');
+        content.className = 'page-content';
+        content.textContent = item;
+        page.appendChild(content);
+
+        bookEl.appendChild(page);
+    });
+
+    function updateBook() {
+        // This function now handles flipping through pages correctly.
+        Array.from(bookEl.getElementsByClassName('page')).forEach((page, index) => {
+            // Flipping the pages based on the currentPageIndex
+            if (index === currentPageIndex || index - 1 === currentPageIndex) {
+                page.classList.remove('flipped');
+            } else {
+                page.classList.add('flipped');
+            }
+        });
+    }
+
+    bookEl.addEventListener('click', function(e) {
+        const bookRect = bookEl.getBoundingClientRect();
+        const isRightSide = e.clientX > bookRect.left + (bookRect.width / 2);
+        if (isRightSide && currentPageIndex < menuItems.length - 2) {
+            currentPageIndex += 2;
+        } else if (!isRightSide && currentPageIndex > 0) {
+            currentPageIndex -= 2;
+        }
+        updateBook();
+    });
+
+    // Initialize the book to show the first item
+    updateBook();
+</script>
 
 </body>
 </html>
