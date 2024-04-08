@@ -3,13 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <title>Interactive A La Carte Menu Book</title>
+    <link href="https://fonts.googleapis.com/css?family=Playfair+Display:400,700&display=swap" rel="stylesheet">
     <style>
         body {
             font-family: 'Arial', sans-serif;
             background-color: skyblue; /* Updated background color */
             margin: 0;
             padding: 0;
-            display: flex;
+            display: block;
+            padding-top: 50px;
             justify-content: center;
             align-items: center;
             height: 100vh;
@@ -21,6 +23,7 @@
 			height: 100vh;
         }
         .book {
+             margin-top: 20px;
             width: 620px;
             height: 400px;
             position: relative;
@@ -28,6 +31,26 @@
             background: #040720; /* Dark background for the book container */
             box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
             overflow: hidden;
+        }
+        .about-menu {
+	               margin: 20px;
+	               padding: 20px;
+	               background-color: #f0f8ff; /* A light, sky-like color */
+	               color: #5a5a5a; /* A soft gray that's easy to read */
+	               border-radius: 8px;
+	               box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+	               max-width: 600px;
+	               text-align: center;
+	               font-family: 'Lucida Handwriting', cursive; /* A more stylish font */
+	           }
+
+	           .about-menu h2 {
+	               color: #0366d6; /* A strong, darker sky-blue for contrast */
+	               margin-bottom: 15px;
+	           }
+
+	           .about-menu p {
+	               line-height: 1.6; /* Improve readability with more line space */
         }
         .page {
             width: 300px;
@@ -40,6 +63,16 @@
             transition: transform 1s ease, z-index 0.5s;
             transform-origin: left;
             backface-visibility: hidden;
+        }
+        .page-content {
+		            font-family: 'Playfair Display', serif;
+		            font-size: 24px; /* Adjust the size as needed */
+		            color: #333333;
+		            text-align: center;
+		            display: flex;
+		            align-items: center; /* This will vertically center the text */
+		            justify-content: center; /* This will horizontally center the text */
+		            height: 100%; /* Full height of the page */
         }
         .page:nth-child(odd) {
             left: 10px;
@@ -59,17 +92,68 @@
             top: 20px;
             left: calc(50% - 50px);
         }
+  .nav {
+            width: 100%;
+            background-color: #fff;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            padding: 10px 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 20px; /* Added margin to push content below */
+        }
 
+        .nav a {
+            text-decoration: none;
+            margin: 0 15px;
+            color: #0366d6; /* The text color of the navigation links */
+            font-family: 'Playfair Display', serif; /* Stylish font for the links */
+            font-size: 18px; /* Size of the navigation links */
+            transition: color 0.3s ease;
+        }
+
+        .nav a:hover {
+            color: #023e8a; /* Color change on hover for interaction */
+        }
+
+        /* You might need to adjust the top value of the .wrapper to make space for the navigation bar */
+      .wrapper {
+	              display: block; /* Changed from flex to block */
+	              margin-top: 20px; /* Add margin at the top */
+	              width: 100%;
+	              max-width: 620px; /* Maximum width of the content */
+	              margin-left: auto;
+	              margin-right: auto;
+        }
+         .footer {
+		            text-align: center;
+		            padding: 20px 0;
+        }
     </style>
 </head>
 <body>
-<div class="wrapper">
+
+    <div class="nav">
+        <!-- Navigation links -->
+        <a href="index.html">Home</a>
+        <a href="menu.html">Menu</a>
+        <a href="about.html">About</a>
+        <a href="contact.html">Contact</a>
+    </div>
+    <div class="wrapper">
+            <div class="about-menu">
+	            <h2>About Our Menu</h2>
+	            <p>Welcome to our restaurant! Our a la carte menu is carefully curated to bring you a selection of the finest dishes, each prepared with fresh, locally-sourced ingredients. Enjoy the art of fine dining where each dish is a testament to our chef's expertise. Whether you're in the mood for a light salad or a sumptuous main course, our menu is designed to satisfy your palate.</p>
+	            <p>Our interactive menu book allows you to explore our offerings. Click on the book to flip through the pages and discover the meals that await you. Bon appétit!</p>
+        </div>
 <div class="book" id="book">
     <img src="data:image/png;base64,{{BASE64_STRING}}" alt="Chef Robot" class="chef-icon">
 </div>
-    <div class="footer">
-        <a href="MyChef_Menu.pdf" download="MyChef_Menu.pdf">Download PDF</a>
-    </div>
+          <div class="footer">
+		            <a href="MyChef_Menu.pdf" download="MyChef_Menu.pdf">Download PDF</a>
+        </div>
+
+
 </div>
 
 
